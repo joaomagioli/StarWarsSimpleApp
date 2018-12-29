@@ -1,4 +1,4 @@
-import 'package:star_wars_app/wrapper/movies_wrapper.dart';
+import 'package:star_wars_app/model/movies_wrapper.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;

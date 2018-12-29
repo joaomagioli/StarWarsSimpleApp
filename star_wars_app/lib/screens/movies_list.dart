@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'wrapper/movies_wrapper.dart';
-import 'api/api.dart';
+import 'package:star_wars_app/model/movies_wrapper.dart';
+import 'package:star_wars_app/api/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:star_wars_app/model/movie.dart';
+import 'package:star_wars_app/screens/movie_details.dart';
 
 class MoviesList extends StatefulWidget {
   final String title;
@@ -64,7 +65,13 @@ class ListItemCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        ListTile(title: Text(moviesList[index].title)),
+        ListTile(
+          title: Text(moviesList[index].title),
+          onTap: () {
+            Navigator.push(context,
+                _onTap(context, moviesList[index].title, moviesList[index]));
+          },
+        ),
         Divider()
       ],
     );
@@ -77,4 +84,11 @@ class ProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(child: Container(child: CircularProgressIndicator()));
   }
+}
+
+_onTap(BuildContext context, String title, Movie movie) {
+  return Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => MovieDetails(title: title, movie: movie)));
 }
