@@ -19,8 +19,8 @@ class _MoviesListState extends State<MoviesList> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(title: new Text(widget.title)),
+    return Scaffold(
+        appBar: AppBar(title: new Text(widget.title)),
         body: FutureBuilder<MoviesWrapper>(
             future: _api.fetchMovies(http.Client()),
             builder: (context, snapshot) {
