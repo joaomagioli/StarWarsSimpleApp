@@ -4,6 +4,7 @@ import 'package:star_wars_app/api/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:star_wars_app/model/movie.dart';
 import 'package:star_wars_app/screens/movie_details.dart';
+import 'package:star_wars_app/screens/error_page_widget.dart';
 
 class MoviesList extends StatefulWidget {
   final String title;
@@ -16,19 +17,25 @@ class MoviesList extends StatefulWidget {
 
 class _MoviesListState extends State<MoviesList> {
   final _api = Api();
+  Future<MoviesWrapper> moviesWrapper;
+
+  @override
+  void initState() {
+    super.initState();
+    moviesWrapper = _api.fetchMovies(http.Client());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: new Text(widget.title)),
         body: FutureBuilder<MoviesWrapper>(
-            future: _api.fetchMovies(http.Client()),
+            future: moviesWrapper,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return MovieListWidget(moviesWrapper: snapshot.data);
               } else if (snapshot.hasError) {
-                // TODO WIDGET FOR ERROR MESSAGE
-                print('ERROR: ' + snapshot.error.toString());
+                return ErrorPageWidget(snapshot.error.toString());
               } else {
                 return ProgressIndicator();
               }
